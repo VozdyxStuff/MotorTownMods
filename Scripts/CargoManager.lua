@@ -79,6 +79,35 @@ local function GetDeliveries(id, depth)
   return data
 end
 
+---Modify a cargo raw data
+---@param key string
+---@param value table
+local function ModifyCargoData(key, value)
+  local cargoData = CreateInvalidObject()
+
+  ExecuteInGameThreadSync(function()
+    ---@diagnostic disable-next-line: cast-local-type
+    cargoData = LoadAsset("/Game/DataAsset/Cargos.Cargos")
+  end)
+
+  if cargoData:IsValid() then
+    ---@cast cargoData UDataTable
+    local cargo = cargoData:FindRow(key)
+
+    if cargo then
+      for k, v in pairs(value) do
+        cargo[k] = v
+      end
+      -- Somewhat ActorClass not copied over, rendering it as an invalid cargo
+      -- Setting the ActorClass manually with StaticFindObject doesn't work
+      cargoData:AddRow(key, cargo)
+      return true
+    end
+  end
+
+  return false
+end
+
 -- Register event hooks
 
 webhook.RegisterEventHook(
@@ -139,7 +168,23 @@ local function HandleGetDeliveries(session)
   return json.stringify { data = GetDeliveries(id, depth) }
 end
 
+---Handle request to modify the cargo type raw data
+---@type RequestPathHandler
+local function HandleModifyCargoData(session)
+  local cargoKey = session.pathComponents[2]
+  local data = json.parse(session.content)
+
+  if data then
+    if ModifyCargoData(cargoKey, data) then
+      return json.stringify { data = data }
+    end
+    return json.stringify { error = "Failed to modify cargo data" }, nil, 400
+  end
+  return json.stringify { error = "Invalid payload" }, nil, 400
+end
+
 return {
   HandleGetDeliveryPoints = HandleGetDeliveryPoints,
   HandleGetDeliveries = HandleGetDeliveries,
+  HandleModifyCargoData = HandleModifyCargoData,
 }

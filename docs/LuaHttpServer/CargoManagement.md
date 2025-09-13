@@ -678,3 +678,69 @@ Returns a delivery point given the guid in-game. Uses the same queries as above.
 ```
 
 </details>
+
+#### PATCH `/cargo/<cargoKey>`
+
+Modify raw cargo data. Requires both the server and clients to have similar value for it to work. The example below is for the `CarrotBox`.
+
+<details>
+<summary>Request body:</summary>
+
+```json
+{
+  "bDepcreated": false,
+  "Name": {
+    "Namespace": "CargoName",
+    "Key": "10DA46DA42CC10D1434AF08E83694BDC",
+    "SourceString": "Carrot",
+    "LocalizedString": "Carrots"
+  },
+  "Name2": {
+    "Texts": []
+  },
+  "CargoType": "EDeliveryCargoType::SmallPackage",
+  "CargoSpaceTypes": ["EMTCargoSpaceType::Flatbed", "EMTCargoSpaceType::Box"],
+  "VolumeSize": 1.0,
+  "WeightRange": {
+    "X": 0.0,
+    "Y": 0.0
+  },
+  "bAllowStacking": false,
+  "bUseDamage": false,
+  "Fragile": 0.0,
+  "SpawnProbability": 10,
+  "NumCargoMin": 1,
+  "NumCargoMax": 2,
+  "PaymentPer1Km": 220.0,
+  "PaymentPer1KmMultiplierByMaxWeight": 2.0,
+  "PaymentSqrtRatio": 1.0,
+  "PaymentSqrtRatioMinCapcity": 0,
+  "BasePayment": 0,
+  "MaxDamagePaymentMultiplier": 0.1,
+  "DamageBonusMultiplier": 0.0,
+  "ManualLoadingPayment": 0,
+  "ActorClass": {
+    "ObjectName": "BlueprintGeneratedClass'CarrotBox_C'",
+    "ObjectPath": "MotorTown/Content/Objects/Mission/Delivery/CarrotBox.0"
+  },
+  "DumpCargoSurfaceMesh": null,
+  "DumpCargoSurfaceMaterial": null,
+  "DumpPileActorClass": null,
+  "CargoFlags": 0,
+  "GameplayTags": ["Cargo.FoodIngredients"],
+  "MinDeliveryDistance": 0.0,
+  "MaxDeliveryDistance": 0.0,
+  "bTimer": false,
+  "BaseTimeSeconds": 0.0,
+  "TimerBySpeedKPH": 0.0,
+  "TimerByRoadSpeedLimitRatio": 0.0,
+  "InTimeTipRange": {
+    "X": 1.0,
+    "Y": 3.0
+  },
+  "bHoldingOffsetUsingItemBounds": false,
+  "Colors": []
+}
+```
+
+</details>

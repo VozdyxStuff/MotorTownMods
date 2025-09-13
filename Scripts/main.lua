@@ -64,6 +64,7 @@ local function LoadWebserver()
     server.registerHandler("/delivery/points/*", "GET", cargoManager.HandleGetDeliveryPoints)
     server.registerHandler("/delivery", "GET", cargoManager.HandleGetDeliveries)
     server.registerHandler("/delivery/*", "GET", cargoManager.HandleGetDeliveries)
+    server.registerHandler("/cargo/*", "PATCH", cargoManager.HandleModifyCargoData)
 
     -- Vehicle management
     server.registerHandler("/vehicles", "GET", vehicleManager.HandleGetVehicles)
